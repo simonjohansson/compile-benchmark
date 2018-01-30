@@ -1,0 +1,21 @@
+resources:
+- name: docker
+  type: docker-image
+  source:
+    password: ((docker.password))
+    repository: simonjohansson/compile-benchmark
+    username: ((docker.username))
+- name: src
+  type: git
+  source:
+    uri: https://github.com/simonjohansson/compile-benchmark.git
+
+jobs:
+- name: Push
+  serial: true
+  plan:
+  - get: src
+    trigger: true
+  - put: docker
+    params:
+      build: src
